@@ -1,0 +1,38 @@
+services:
+  redis:
+    image: redis:7.0-alpine
+    container_name: voting-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - voting-network
+
+  voting-app:
+    build:
+      context: ./voting-app
+    container_name: voting-app
+    depends_on:
+      - redis
+    ports:
+      - "5000:5000"
+    environment:
+      - REDIS_HOST=redis
+    networks:
+      - voting-network
+
+  result-app:
+    build:
+      context: ./result-app
+    container_name: result-app
+    depends_on:
+      - redis
+    ports:
+      - "8080:8080"
+    environment:
+      - REDIS_HOST=redis
+    networks:
+      - voting-network
+
+networks:
+  voting-network:
+    driver: bridge

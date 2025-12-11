@@ -1,0 +1,15 @@
+:root{--bg:#071024;--card:#0b1220;--accent:#ff7a59;--accent2:#6ee7b7;--muted:#9aa6b2}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#071024 0%,#071a2b 100%);color:#e6eef3}
+.results-container{max-width:900px;margin:28px auto;padding:18px}
+header{text-align:center;margin-bottom:18px}
+header h1{margin:0;font-size:1.6rem}
+.muted{color:var(--muted);margin-top:6px}
+.chart-wrap{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 8px 24px rgba(2,6,23,0.6);margin-bottom:12px}
+.numbers{display:flex;gap:16px;justify-content:center}
+.num{background:rgba(255,255,255,0.02);padding:12px 18px;border-radius:10px;text-align:center;min-width:140px}
+.label{color:var(--muted);font-size:0.9rem}
+.value{font-size:1.8rem;font-weight:700;margin-top:6px}
+.footer{text-align:center;color:var(--muted);margin-top:12px}
+
+@media(max-width:600px){.numbers{flex-direction:column;align-items:center}.chart-wrap{padding:12px}}

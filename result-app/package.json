@@ -1,0 +1,6 @@
+{
+  "name": "result-app",
+  "version": "1.0.0",
+  "description": "Result app for voting demo",
+  "main": "server.py"
+}

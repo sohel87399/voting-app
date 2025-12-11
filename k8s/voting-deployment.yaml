@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: voting-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: voting-app
+  template:
+    metadata:
+      labels:
+        app: voting-app
+    spec:
+      containers:
+      - name: voting-app
+        image: voting-app:latest
+        ports:
+        - containerPort: 5000
+        env:
+        - name: REDIS_HOST
+          value: "redis"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: voting-app
+spec:
+  type: ClusterIP
+  selector:
+    app: voting-app
+  ports:
+  - port: 5000
+    targetPort: 5000
+    protocol: TCP

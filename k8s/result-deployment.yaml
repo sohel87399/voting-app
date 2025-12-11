@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: result-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: result-app
+  template:
+    metadata:
+      labels:
+        app: result-app
+    spec:
+      containers:
+      - name: result-app
+        image: result-app:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: REDIS_HOST
+          value: "redis"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: result-app
+spec:
+  type: ClusterIP
+  selector:
+    app: result-app
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP

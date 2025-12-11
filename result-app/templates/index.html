@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Voting Results</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  </head>
+  <body>
+    <main class="results-container">
+      <header>
+        <h1>Live Voting Results</h1>
+        <p class="muted">Updates every 2 seconds</p>
+      </header>
+
+      <section class="chart-wrap">
+        <canvas id="resultsChart" aria-label="Voting results chart" role="img"></canvas>
+      </section>
+
+      <section class="numbers">
+        <div class="num">
+          <div class="label">Cats</div>
+          <div id="num-cats" class="value">0</div>
+        </div>
+        <div class="num">
+          <div class="label">Dogs</div>
+          <div id="num-dogs" class="value">0</div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <small>Powered by Redis • Demo</small>
+      </footer>
+    </main>
+
+    <script>
+      const ctx = document.getElementById('resultsChart');
+      const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Cats','Dogs'],
+          datasets: [{
+            label: 'Votes',
+            data: [0,0],
+            backgroundColor: ['#ff7a59','#6ee7b7'],
+            borderRadius: 8,
+            barThickness: 48
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {legend:{display:false}},
+          scales: {y:{beginAtZero:true, ticks:{precision:0}}}
+        }
+      });
+
+      async function fetchResults(){
+        try{
+          const res = await fetch('/results');
+          if(!res.ok) return null;
+          return await res.json();
+        }catch(e){console.error(e);return null}
+      }
+
+      async function update() {
+        const data = await fetchResults();
+        if(!data) return;
+        const cats = Number(data.Cats||0);
+        const dogs = Number(data.Dogs||0);
+        chart.data.datasets[0].data = [cats,dogs];
+        chart.update();
+        document.getElementById('num-cats').innerText = cats;
+        document.getElementById('num-dogs').innerText = dogs;
+      }
+
+      update();
+      setInterval(update, 2000);
+    </script>
+  </body>
+</html>
