@@ -4,7 +4,7 @@ services:
     runtime: docker
     region: singapore
     plan: free
-    branch: main
+    branch: master
     repo: https://github.com/sohel87399/terraform_k8s_deployment # Update this if your repo URL is different
     envVars:
       - key: PORT
